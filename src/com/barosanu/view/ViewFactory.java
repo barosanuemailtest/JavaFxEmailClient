@@ -30,7 +30,7 @@ public class ViewFactory {
     private Scene initializeScene(BaseController baseController) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(baseController.getFxmlName()));
         fxmlLoader.setController(baseController);
-        Parent parent = null;
+        Parent parent;
         try {
             parent = fxmlLoader.load();
         } catch (IOException e) {

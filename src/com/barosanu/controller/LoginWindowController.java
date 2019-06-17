@@ -1,9 +1,10 @@
 package com.barosanu.controller;
 
 import com.barosanu.ModelAccess;
-import javafx.event.ActionEvent;
+import com.barosanu.model.EmailAccount;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -23,12 +24,36 @@ public class LoginWindowController extends BaseController implements Initializab
     private PasswordField passwordField;
 
     @FXML
-    void loginAction(ActionEvent event) {
-        System.out.println(passwordField.getText());
+    private Label errorLabel;
+
+    @FXML
+    void loginAction() {
+        if(fieldsAreValid()){
+            errorLabel.setText("Logging in ...");
+            EmailAccount emailAccount = new EmailAccount(
+                    emailAddressField.getText(),
+                    passwordField.getText()
+            );
+            System.out.println("asdf initialized");
+        }
+
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("LoginWindowController initialized");
+    }
+
+    private boolean fieldsAreValid(){
+        if(emailAddressField.getText().isEmpty()){
+            errorLabel.setText("Please fill email");
+            return false;
+        }
+        if(passwordField.getText().isEmpty()){
+            errorLabel.setText("Please fill password");
+            return false;
+        }
+        return true;
     }
 }
