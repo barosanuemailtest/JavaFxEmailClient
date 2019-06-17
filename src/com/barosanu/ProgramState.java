@@ -1,26 +1,43 @@
 package com.barosanu;
 
+import com.barosanu.view.ViewFactory;
+
 public class ProgramState {
 
     private PersistenceAccess persistenceAccess;
     private ModelAccess modelAccess;
+    private ViewFactory viewFactory;
 
-    public ProgramState(PersistenceAccess persistenceAccess, ModelAccess modelAccess ){
+    public ProgramState(PersistenceAccess persistenceAccess, ModelAccess modelAccess) {
         this.persistenceAccess = persistenceAccess;
         this.modelAccess = modelAccess;
+        this.viewFactory = new ViewFactory(modelAccess);
+
     }
 
-    public ProgramState(){
+    public ProgramState() {
         this(new PersistenceAccess(), new ModelAccess());
     }
 
-    private void checkPersistence(){
-        if(this.persistenceAccess.loadFromPersistence() != null) {
-            //TODO : load stuff
-            // Salut Nadia!
-        } else {
+    public void init() {
+        this.checkPersistence();
+    }
 
+    private void checkPersistence() {
+        if (this.persistenceAccess.loadFromPersistence() != null) {
+            //TODO : load stuff
+            showMainScreen();
+        } else {
+            showLoginWindow();
         }
+    }
+
+    private void showLoginWindow() {
+        this.viewFactory.showloginWindow();
+    }
+
+    private void showMainScreen() {
+
     }
 
 
