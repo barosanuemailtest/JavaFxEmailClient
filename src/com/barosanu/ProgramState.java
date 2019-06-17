@@ -17,6 +17,7 @@ public class ProgramState {
     private void checkPersistence(){
         if(this.persistenceAccess.loadFromPersistence() != null) {
             //TODO : load stuff
+            // Salut Nadia!
         } else {
 
         }
