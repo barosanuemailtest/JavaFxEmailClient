@@ -2,6 +2,7 @@ package com.barosanu.view;
 
 import com.barosanu.ModelAccess;
 import com.barosanu.controller.BaseController;
+import com.barosanu.controller.LoginWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,8 +11,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ViewFactory {
-
-    private final String DEFAULT_CSS = "default.css";
 
     private ModelAccess modelAccess;
     private Stage stage;
@@ -22,7 +21,7 @@ public class ViewFactory {
     }
 
     public void showLoginWindow() {
-        BaseController LoginWindow = new BaseController(modelAccess, "LoginWindow.fxml");
+        BaseController LoginWindow = new LoginWindowController(modelAccess, "LoginWindow.fxml");
 
         stage.setScene(this.initializeScene(LoginWindow));
         stage.show();
@@ -40,6 +39,7 @@ public class ViewFactory {
         }
 
         Scene scene = new Scene(parent);
+        String DEFAULT_CSS = "default.css";
         scene.getStylesheets().add(getClass().getResource(DEFAULT_CSS).toExternalForm());
 
         return scene;

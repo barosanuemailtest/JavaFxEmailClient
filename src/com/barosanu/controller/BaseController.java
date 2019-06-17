@@ -2,7 +2,7 @@ package com.barosanu.controller;
 
 import com.barosanu.ModelAccess;
 
-public class BaseController {
+public abstract class BaseController {
 
     private ModelAccess modelAccess;
     private String fxmlName;
