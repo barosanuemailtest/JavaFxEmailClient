@@ -33,7 +33,7 @@ public class ProgramState {
     }
 
     private void showLoginWindow() {
-        this.viewFactory.showloginWindow();
+        this.viewFactory.showLoginWindow();
     }
 
     private void showMainScreen() {
