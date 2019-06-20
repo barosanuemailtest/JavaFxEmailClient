@@ -13,8 +13,11 @@ import java.util.ResourceBundle;
 
 public class LoginWindowController extends BaseController implements Initializable {
 
+    private EmailManager emailManager;
+
     public LoginWindowController(ModelAccess modelAccess, String fxmlName) {
         super(modelAccess, fxmlName);
+        this.emailManager = new EmailManager(modelAccess);
     }
 
     @FXML
@@ -34,6 +37,15 @@ public class LoginWindowController extends BaseController implements Initializab
                     emailAddressField.getText(),
                     passwordField.getText()
             );
+           EmailLoginResult result =  emailManager.login(emailAccount);
+           switch (result) {
+               case SUCCESS:
+                   break;
+               case FAILED_BY_CREDENTIALS:
+                   break;
+               case FAILED_BY_NETWORK:
+                   break;
+           }
             System.out.println("asdf initialized");
         }
 
