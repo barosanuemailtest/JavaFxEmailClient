@@ -1,6 +1,7 @@
 package com.barosanu.controller;
 
 import com.barosanu.ModelAccess;
+import com.barosanu.controller.services.LoginService;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
@@ -38,17 +39,20 @@ public class LoginWindowController extends BaseController implements Initializab
                     emailAddressField.getText(),
                     passwordField.getText()
             );
-           EmailLoginResult result =  emailManager.login(emailAccount);
-           switch (result) {
-               case SUCCESS:
-                   this.viewFactory.showMainWindow();
-                   break;
-               case FAILED_BY_CREDENTIALS:
-                   break;
-               case FAILED_BY_NETWORK:
-                   break;
-           }
-            System.out.println("asdf initialized");
+            LoginService loginService = new LoginService(modelAccess);
+            loginService.start();
+            loginService.setOnSucceeded(e->{
+                EmailLoginResult result = loginService.getValue();
+                switch (result) {
+                    case SUCCESS:
+                        this.viewFactory.showMainWindow();
+                        break;
+                    case FAILED_BY_CREDENTIALS:
+                        break;
+                    case FAILED_BY_NETWORK:
+                        break;
+                }
+            });
         }
 
 
