@@ -2,6 +2,7 @@ package com.barosanu.controller;
 
 import com.barosanu.ModelAccess;
 import com.barosanu.model.EmailAccount;
+import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -15,8 +16,8 @@ public class LoginWindowController extends BaseController implements Initializab
 
     private EmailManager emailManager;
 
-    public LoginWindowController(ModelAccess modelAccess, String fxmlName) {
-        super(modelAccess, fxmlName);
+    public LoginWindowController(ViewFactory viewFactory,ModelAccess modelAccess, String fxmlName) {
+        super(viewFactory, modelAccess, fxmlName);
         this.emailManager = new EmailManager(modelAccess);
     }
 
@@ -40,6 +41,7 @@ public class LoginWindowController extends BaseController implements Initializab
            EmailLoginResult result =  emailManager.login(emailAccount);
            switch (result) {
                case SUCCESS:
+                   this.viewFactory.showMainWindow();
                    break;
                case FAILED_BY_CREDENTIALS:
                    break;

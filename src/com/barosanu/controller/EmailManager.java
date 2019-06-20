@@ -12,7 +12,7 @@ public class EmailManager {
     }
 
     public EmailLoginResult login(EmailAccount emailAccount){
-        return EmailLoginResult.FAILED_BY_CREDENTIALS;
+        return EmailLoginResult.SUCCESS;
     }
 
 
