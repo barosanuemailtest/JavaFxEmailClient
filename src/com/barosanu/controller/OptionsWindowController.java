@@ -27,13 +27,14 @@ public class OptionsWindowController extends BaseController implements Initializ
     void applyBtnAction() {
         modelAccess.setTheme(themePicker.getValue());
         modelAccess.setFontSize(FontSize.values()[(int)(fontSizePicker.getValue())]);
+        viewFactory.updateStyles();
     }
 
     @FXML
     void cancelBtnAction() {
         //TODO: better way to close stage
         Stage stage = (Stage) fontSizePicker.getScene().getWindow();
-        stage.close();
+        viewFactory.closeStage(stage);
     }
 
     public OptionsWindowController(ViewFactory viewFactory, ModelAccess modelAccess, String fxmlName) {
@@ -43,7 +44,7 @@ public class OptionsWindowController extends BaseController implements Initializ
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(FXCollections.observableArrayList(ColorTheme.values()));
-        themePicker.setValue(ColorTheme.DEFAULT);
+        themePicker.setValue(modelAccess.getTheme());
 
         setUpSlider();
 

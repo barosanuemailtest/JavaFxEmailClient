@@ -18,7 +18,7 @@ public class LoginService extends Service<EmailLoginResult> {
         return new Task<EmailLoginResult>() {
             @Override
             protected EmailLoginResult call() throws Exception {
-                Thread.sleep(6000);
+                Thread.sleep(3000);
                 return EmailLoginResult.SUCCESS;
             }
         };

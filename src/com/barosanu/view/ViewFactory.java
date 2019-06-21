@@ -11,16 +11,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ViewFactory {
 
     private ModelAccess modelAccess;
     private Stage stage;
+    private ArrayList<Stage> activeStages;
 
     public ViewFactory(ModelAccess modelAccess) {
         this.modelAccess = modelAccess;
         this.stage = new Stage();
+        activeStages = new ArrayList<Stage>();
+        activeStages.add(stage);
     }
+
 
     public void showLoginWindow() {
         BaseController loginWindow = new LoginWindowController(this, modelAccess, "LoginWindow.fxml");
@@ -38,6 +43,7 @@ public class ViewFactory {
         BaseController optionsController = new OptionsWindowController(this, modelAccess, "OptionsWindow.fxml");
         optionsStage.setScene(this.initializeScene(optionsController));
         optionsStage.show();
+        activeStages.add(optionsStage);
     }
 
     private Scene initializeScene(BaseController baseController) {
@@ -52,9 +58,25 @@ public class ViewFactory {
         }
 
         Scene scene = new Scene(parent);
-        String DEFAULT_CSS = "default.css";
-        scene.getStylesheets().add(getClass().getResource(DEFAULT_CSS).toExternalForm());
-
+        applyCurrentStylesToScene(scene);
         return scene;
+    }
+
+    public void closeStage(Stage stageToClose) {
+        activeStages.remove(stageToClose);
+        stageToClose.close();
+    }
+
+    public void updateStyles(){
+        for(Stage stage2:activeStages) {
+            Scene scene2 = stage2.getScene();
+            applyCurrentStylesToScene(scene2);
+        }
+    }
+
+    private void applyCurrentStylesToScene(Scene scene){
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(modelAccess.getTheme())).toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(modelAccess.getFontSize())).toExternalForm());
     }
 }
