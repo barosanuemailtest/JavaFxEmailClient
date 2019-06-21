@@ -4,6 +4,7 @@ import com.barosanu.ModelAccess;
 import com.barosanu.controller.BaseController;
 import com.barosanu.controller.LoginWindowController;
 import com.barosanu.controller.MainWindowController;
+import com.barosanu.controller.OptionsWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,7 +34,10 @@ public class ViewFactory {
         stage.show();
     }
     public void showOptionsWindow(){
-        System.out.println("showOptionsWindow");
+        Stage optionsStage = new Stage();
+        BaseController optionsController = new OptionsWindowController(this, modelAccess, "OptionsWindow.fxml");
+        optionsStage.setScene(this.initializeScene(optionsController));
+        optionsStage.show();
     }
 
     private Scene initializeScene(BaseController baseController) {

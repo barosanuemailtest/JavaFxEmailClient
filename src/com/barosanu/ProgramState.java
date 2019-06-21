@@ -37,7 +37,7 @@ public class ProgramState {
     }
 
     private void showMainScreen() {
-
+        this.viewFactory.showMainWindow();
     }
 
 

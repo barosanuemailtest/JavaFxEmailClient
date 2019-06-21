@@ -15,11 +15,8 @@ import java.util.ResourceBundle;
 
 public class LoginWindowController extends BaseController implements Initializable {
 
-    private EmailManager emailManager;
-
     public LoginWindowController(ViewFactory viewFactory,ModelAccess modelAccess, String fxmlName) {
         super(viewFactory, modelAccess, fxmlName);
-        this.emailManager = new EmailManager(modelAccess);
     }
 
     @FXML
