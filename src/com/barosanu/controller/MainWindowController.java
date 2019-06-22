@@ -30,6 +30,11 @@ public class MainWindowController extends BaseController implements Initializabl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setUpFoldersView();
+    }
 
+    private void setUpFoldersView(){
+        folders.setRoot(emailManager.getFoldersRoot());
+        folders.setShowRoot(false);
     }
 }

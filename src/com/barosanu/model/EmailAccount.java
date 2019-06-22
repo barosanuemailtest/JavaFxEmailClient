@@ -1,5 +1,6 @@
 package com.barosanu.model;
 
+import javax.mail.Store;
 import java.util.Properties;
 
 public class EmailAccount {
@@ -7,6 +8,15 @@ public class EmailAccount {
     private String password;
     private Properties properties;
     private String address;
+    private Store store;
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public EmailAccount(String address, String password) {
         this.address = address;
