@@ -14,4 +14,9 @@ public class MainWindowController extends BaseController{
     void onOptionsClick() {
         this.viewFactory.showOptionsWindow();
     }
+
+    @FXML
+    void addAccountClick() {
+        this.viewFactory.showLoginWindow();
+    }
 }

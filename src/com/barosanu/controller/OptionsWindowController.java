@@ -32,7 +32,6 @@ public class OptionsWindowController extends BaseController implements Initializ
 
     @FXML
     void cancelBtnAction() {
-        //TODO: better way to close stage
         Stage stage = (Stage) fontSizePicker.getScene().getWindow();
         viewFactory.closeStage(stage);
     }
@@ -43,12 +42,13 @@ public class OptionsWindowController extends BaseController implements Initializ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setUpThemePicker();
+        setUpSlider();
+    }
+
+    private void setUpThemePicker() {
         themePicker.setItems(FXCollections.observableArrayList(ColorTheme.values()));
         themePicker.setValue(modelAccess.getTheme());
-
-        setUpSlider();
-
-
     }
 
     private void setUpSlider() {

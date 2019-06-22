@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,13 +37,17 @@ public class LoginWindowController extends BaseController implements Initializab
                     emailAddressField.getText(),
                     passwordField.getText()
             );
-            LoginService loginService = new LoginService(modelAccess);
+            LoginService loginService = new LoginService(modelAccess, emailAccount);
             loginService.start();
             loginService.setOnSucceeded(e->{
                 EmailLoginResult result = loginService.getValue();
                 switch (result) {
                     case SUCCESS:
-                        this.viewFactory.showMainWindow();
+                        if(!this.viewFactory.isMainViewInitialized()){
+                            this.viewFactory.showMainWindow();
+                        }
+                        Stage stage = (Stage) emailAddressField.getScene().getWindow();
+                        this.viewFactory.closeStage(stage);
                         break;
                     case FAILED_BY_CREDENTIALS:
                         break;
@@ -57,7 +62,8 @@ public class LoginWindowController extends BaseController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("LoginWindowController initialized");
+        emailAddressField.setText("a");
+        passwordField.setText("b");
     }
 
     private boolean fieldsAreValid(){

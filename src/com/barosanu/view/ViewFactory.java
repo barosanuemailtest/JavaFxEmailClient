@@ -16,27 +16,30 @@ import java.util.ArrayList;
 public class ViewFactory {
 
     private ModelAccess modelAccess;
-    private Stage stage;
     private ArrayList<Stage> activeStages;
+    private boolean mainViewInitialized = false;
 
     public ViewFactory(ModelAccess modelAccess) {
         this.modelAccess = modelAccess;
-        this.stage = new Stage();
         activeStages = new ArrayList<Stage>();
-        activeStages.add(stage);
     }
 
 
     public void showLoginWindow() {
+        Stage loginStage = new Stage();
         BaseController loginWindow = new LoginWindowController(this, modelAccess, "LoginWindow.fxml");
-        stage.setScene(this.initializeScene(loginWindow));
-        stage.show();
+        loginStage.setScene(this.initializeScene(loginWindow));
+        loginStage.show();
+        activeStages.add(loginStage);
     }
 
     public void showMainWindow(){
+        Stage mainStage = new Stage();
         BaseController mainWindow = new MainWindowController(this, modelAccess, "MainWindow.fxml");
-        stage.setScene(this.initializeScene(mainWindow));
-        stage.show();
+        mainStage.setScene(this.initializeScene(mainWindow));
+        mainStage.show();
+        mainViewInitialized = true;
+        activeStages.add(mainStage);
     }
     public void showOptionsWindow(){
         Stage optionsStage = new Stage();
@@ -44,6 +47,10 @@ public class ViewFactory {
         optionsStage.setScene(this.initializeScene(optionsController));
         optionsStage.show();
         activeStages.add(optionsStage);
+    }
+
+    public boolean isMainViewInitialized(){
+        return this.mainViewInitialized;
     }
 
     private Scene initializeScene(BaseController baseController) {
