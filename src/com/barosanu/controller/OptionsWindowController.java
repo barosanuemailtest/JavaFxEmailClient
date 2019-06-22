@@ -1,6 +1,6 @@
 package com.barosanu.controller;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.view.ColorTheme;
 import com.barosanu.view.FontSize;
 import com.barosanu.view.ViewFactory;
@@ -25,8 +25,8 @@ public class OptionsWindowController extends BaseController implements Initializ
 
     @FXML
     void applyBtnAction() {
-        modelAccess.setTheme(themePicker.getValue());
-        modelAccess.setFontSize(FontSize.values()[(int)(fontSizePicker.getValue())]);
+        emailManager.setTheme(themePicker.getValue());
+        emailManager.setFontSize(FontSize.values()[(int)(fontSizePicker.getValue())]);
         viewFactory.updateStyles();
     }
 
@@ -36,8 +36,8 @@ public class OptionsWindowController extends BaseController implements Initializ
         viewFactory.closeStage(stage);
     }
 
-    public OptionsWindowController(ViewFactory viewFactory, ModelAccess modelAccess, String fxmlName) {
-        super(viewFactory, modelAccess, fxmlName);
+    public OptionsWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
+        super(viewFactory, emailManager, fxmlName);
     }
 
     @Override
@@ -48,13 +48,13 @@ public class OptionsWindowController extends BaseController implements Initializ
 
     private void setUpThemePicker() {
         themePicker.setItems(FXCollections.observableArrayList(ColorTheme.values()));
-        themePicker.setValue(modelAccess.getTheme());
+        themePicker.setValue(emailManager.getTheme());
     }
 
     private void setUpSlider() {
         fontSizePicker.setMin(0);
         fontSizePicker.setMax(FontSize.values().length - 1);
-        fontSizePicker.setValue(modelAccess.getFontSize().ordinal());
+        fontSizePicker.setValue(emailManager.getFontSize().ordinal());
         fontSizePicker.setMinorTickCount(0);
         fontSizePicker.setMajorTickUnit(1);
         fontSizePicker.setBlockIncrement(1);

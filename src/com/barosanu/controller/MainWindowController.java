@@ -1,6 +1,6 @@
 package com.barosanu.controller;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,8 +14,8 @@ public class MainWindowController extends BaseController implements Initializabl
     @FXML
     private TreeView<String> folders;
 
-    public MainWindowController(ViewFactory viewFactory, ModelAccess modelAccess, String fxmlName) {
-        super(viewFactory, modelAccess, fxmlName);
+    public MainWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
+        super(viewFactory, emailManager, fxmlName);
     }
 
     @FXML

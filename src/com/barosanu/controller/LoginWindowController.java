@@ -1,6 +1,6 @@
 package com.barosanu.controller;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.controller.services.LoginService;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.view.ViewFactory;
@@ -16,8 +16,8 @@ import java.util.ResourceBundle;
 
 public class LoginWindowController extends BaseController implements Initializable {
 
-    public LoginWindowController(ViewFactory viewFactory,ModelAccess modelAccess, String fxmlName) {
-        super(viewFactory, modelAccess, fxmlName);
+    public LoginWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
+        super(viewFactory, emailManager, fxmlName);
     }
 
     @FXML
@@ -37,7 +37,7 @@ public class LoginWindowController extends BaseController implements Initializab
                     emailAddressField.getText(),
                     passwordField.getText()
             );
-            LoginService loginService = new LoginService(modelAccess, emailAccount);
+            LoginService loginService = new LoginService(emailManager, emailAccount);
             loginService.start();
             loginService.setOnSucceeded(e->{
                 EmailLoginResult result = loginService.getValue();

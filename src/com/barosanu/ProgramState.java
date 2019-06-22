@@ -5,18 +5,18 @@ import com.barosanu.view.ViewFactory;
 public class ProgramState {
 
     private PersistenceAccess persistenceAccess;
-    private ModelAccess modelAccess;
+    private EmailManager emailManager;
     private ViewFactory viewFactory;
 
-    public ProgramState(PersistenceAccess persistenceAccess, ModelAccess modelAccess) {
+    public ProgramState(PersistenceAccess persistenceAccess, EmailManager emailManager) {
         this.persistenceAccess = persistenceAccess;
-        this.modelAccess = modelAccess;
-        this.viewFactory = new ViewFactory(modelAccess);
+        this.emailManager = emailManager;
+        this.viewFactory = new ViewFactory(emailManager);
 
     }
 
     public ProgramState() {
-        this(new PersistenceAccess(), new ModelAccess());
+        this(new PersistenceAccess(), new EmailManager());
     }
 
     public void init() {

@@ -1,18 +1,18 @@
 package com.barosanu.controller;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.view.ViewFactory;
 
 public abstract class BaseController {
 
     protected ViewFactory viewFactory;
-    protected ModelAccess modelAccess;
+    protected EmailManager emailManager;
     private String fxmlName;
 
 
-    public BaseController(ViewFactory viewFactory, ModelAccess modelAccess, String fxmlName) {
+    public BaseController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
         this.viewFactory = viewFactory;
-        this.modelAccess = modelAccess;
+        this.emailManager = emailManager;
         this.fxmlName = fxmlName;
     }
 

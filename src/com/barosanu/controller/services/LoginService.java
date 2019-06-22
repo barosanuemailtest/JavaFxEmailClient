@@ -1,6 +1,6 @@
 package com.barosanu.controller.services;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.controller.EmailLoginResult;
 import com.barosanu.model.EmailAccount;
 import javafx.concurrent.Service;
@@ -10,12 +10,12 @@ import javax.mail.*;
 
 public class LoginService extends Service<EmailLoginResult> {
 
-    private ModelAccess modelAccess;
+    private EmailManager emailManager;
     private EmailAccount emailAccount;
 
-    public LoginService(ModelAccess modelAccess, EmailAccount emailAccount) {
+    public LoginService(EmailManager emailManager, EmailAccount emailAccount) {
         this.emailAccount = emailAccount;
-        this.modelAccess = modelAccess;
+        this.emailManager = emailManager;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LoginService extends Service<EmailLoginResult> {
             return EmailLoginResult.FAILED_BY_CREDENTIALS;
         } catch (Exception e) {
             e.printStackTrace();
-            return EmailLoginResult.FAILED_BY_UNEXPECTED_EROOR;
+            return EmailLoginResult.FAILED_BY_UNEXPECTED_ERROR;
         }
         return EmailLoginResult.SUCCESS;
     }

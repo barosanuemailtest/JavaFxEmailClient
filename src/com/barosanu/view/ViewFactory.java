@@ -1,6 +1,6 @@
 package com.barosanu.view;
 
-import com.barosanu.ModelAccess;
+import com.barosanu.EmailManager;
 import com.barosanu.controller.BaseController;
 import com.barosanu.controller.LoginWindowController;
 import com.barosanu.controller.MainWindowController;
@@ -15,19 +15,19 @@ import java.util.ArrayList;
 
 public class ViewFactory {
 
-    private ModelAccess modelAccess;
+    private EmailManager emailManager;
     private ArrayList<Stage> activeStages;
     private boolean mainViewInitialized = false;
 
-    public ViewFactory(ModelAccess modelAccess) {
-        this.modelAccess = modelAccess;
+    public ViewFactory(EmailManager emailManager) {
+        this.emailManager = emailManager;
         activeStages = new ArrayList<Stage>();
     }
 
 
     public void showLoginWindow() {
         Stage loginStage = new Stage();
-        BaseController loginWindow = new LoginWindowController(this, modelAccess, "LoginWindow.fxml");
+        BaseController loginWindow = new LoginWindowController(this, emailManager, "LoginWindow.fxml");
         loginStage.setScene(this.initializeScene(loginWindow));
         loginStage.show();
         activeStages.add(loginStage);
@@ -35,7 +35,7 @@ public class ViewFactory {
 
     public void showMainWindow(){
         Stage mainStage = new Stage();
-        BaseController mainWindow = new MainWindowController(this, modelAccess, "MainWindow.fxml");
+        BaseController mainWindow = new MainWindowController(this, emailManager, "MainWindow.fxml");
         mainStage.setScene(this.initializeScene(mainWindow));
         mainStage.show();
         mainViewInitialized = true;
@@ -43,7 +43,7 @@ public class ViewFactory {
     }
     public void showOptionsWindow(){
         Stage optionsStage = new Stage();
-        BaseController optionsController = new OptionsWindowController(this, modelAccess, "OptionsWindow.fxml");
+        BaseController optionsController = new OptionsWindowController(this, emailManager, "OptionsWindow.fxml");
         optionsStage.setScene(this.initializeScene(optionsController));
         optionsStage.show();
         activeStages.add(optionsStage);
@@ -83,7 +83,7 @@ public class ViewFactory {
 
     private void applyCurrentStylesToScene(Scene scene){
         scene.getStylesheets().clear();
-        scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(modelAccess.getTheme())).toExternalForm());
-        scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(modelAccess.getFontSize())).toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(emailManager.getTheme())).toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(emailManager.getFontSize())).toExternalForm());
     }
 }

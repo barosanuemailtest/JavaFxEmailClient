@@ -3,7 +3,7 @@ package com.barosanu;
 import com.barosanu.view.ColorTheme;
 import com.barosanu.view.FontSize;
 
-public class ModelAccess {
+public class EmailManager {
 
     public ColorTheme getTheme() {
         return theme;
