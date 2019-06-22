@@ -50,8 +50,10 @@ public class LoginWindowController extends BaseController implements Initializab
                         this.viewFactory.closeStage(stage);
                         break;
                     case FAILED_BY_CREDENTIALS:
+                        errorLabel.setText("Invalid credentials!");
                         break;
                     case FAILED_BY_NETWORK:
+                        errorLabel.setText("Unexpected error!");
                         break;
                 }
             });
@@ -62,8 +64,8 @@ public class LoginWindowController extends BaseController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        emailAddressField.setText("a");
-        passwordField.setText("b");
+        emailAddressField.setText("barosanu2489@gmail.com");
+        passwordField.setText("9222193ABEDJg");
     }
 
     private boolean fieldsAreValid(){

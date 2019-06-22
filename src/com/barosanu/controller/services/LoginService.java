@@ -6,7 +6,7 @@ import com.barosanu.model.EmailAccount;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-import javax.mail.Message;
+import javax.mail.*;
 
 public class LoginService extends Service<EmailLoginResult> {
 
@@ -24,13 +24,35 @@ public class LoginService extends Service<EmailLoginResult> {
         return new Task<EmailLoginResult>() {
             @Override
             protected EmailLoginResult call() throws Exception {
-                Thread.sleep(1000);
                 return login();
             }
         };
     }
 
-    private EmailLoginResult login(){
-        return  EmailLoginResult.SUCCESS;
+    private EmailLoginResult login() {
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(emailAccount.getAddress(), emailAccount.getPassword());
+            }
+        };
+
+        try {
+            Session session = Session.getInstance(emailAccount.getProperties(), auth);
+            Store store = session.getStore();
+            store.connect(emailAccount.getProperties().getProperty("incomingHost"),
+                    emailAccount.getAddress(),
+                    emailAccount.getPassword());
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+            return EmailLoginResult.FAILED_BY_NETWORK;
+        } catch (AuthenticationFailedException e) {
+            e.printStackTrace();
+            return EmailLoginResult.FAILED_BY_CREDENTIALS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return EmailLoginResult.FAILED_BY_UNEXPECTED_EROOR;
+        }
+        return EmailLoginResult.SUCCESS;
     }
 }

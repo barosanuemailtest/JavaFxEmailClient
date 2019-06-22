@@ -22,5 +22,5 @@ public class ModelAccess {
     }
 
     private ColorTheme theme = ColorTheme.DEFAULT;
-    private FontSize fontSize = FontSize.BIG;
+    private FontSize fontSize = FontSize.MEDIUM;
 }
