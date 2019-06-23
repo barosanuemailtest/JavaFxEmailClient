@@ -5,6 +5,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Store;
 
@@ -31,15 +32,45 @@ public class FetchFoldersService extends Service<Void> {
 
     private void fetchFolders() throws MessagingException {
         Folder[] folders = store.getDefaultFolder().list();
-        for(Folder folder: folders){
+        this.handleFolder(folders, foldersRoot);
+    }
+
+    private void handleFolder(Folder[] folders, EmailTreeItem parentTree) throws MessagingException {
+        for (Folder folder : folders) {
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(folder.getName());
-            foldersRoot.getChildren().add(emailTreeItem);
+            parentTree.getChildren().add(emailTreeItem);
             emailTreeItem.setExpanded(true);
             System.out.println("Added " + folder.getName());
+            fetchMessagesOnFolder(emailTreeItem, folder);
+            Folder[] subFolders = folder.list();
+            handleFolder(subFolders, emailTreeItem);
         }
     }
 
-    private void handleFolder(Folder folder, EmailTreeItem parentTree){
-
+    private void fetchMessagesOnFolder(EmailTreeItem<String> emailFolder, Folder folder) {
+        Service fetchMessagesService = new Service() {
+            @Override
+            protected Task createTask() {
+                return new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        try {
+                            if (folder.getType() != Folder.HOLDS_FOLDERS) {
+                                folder.open(Folder.READ_WRITE);
+                                int folderSize = folder.getMessageCount();
+                                for (int i = folderSize; i > 0; i--) {
+                                    Message currentMessage = folder.getMessage(i);
+                                    emailFolder.addEmail(currentMessage);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+        fetchMessagesService.start();
     }
 }
