@@ -22,10 +22,7 @@ public class EmailTreeItem<String> extends TreeItem<String> {
 
     public void addEmail(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
-        EmailMessage emailMessage = new EmailMessage(
-                message.getSubject(),
-                message.getFrom()[0].toString()
-        );
+        EmailMessage emailMessage = new EmailMessage(message);
         emails.add(emailMessage);
         System.out.println("Added message: " + emailMessage.toString());
     }
