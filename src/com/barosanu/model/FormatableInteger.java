@@ -23,8 +23,12 @@ public class FormatableInteger implements Comparable<FormatableInteger> {
 
     @Override
     public int compareTo(FormatableInteger formatableInteger) {
-        Integer int1 = this.size;
-        Integer int2 = formatableInteger.size;
-        return int1.compareTo(int2);
+        if (size > formatableInteger.size) {
+            return 1;
+        } else if (formatableInteger.size > size) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

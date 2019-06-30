@@ -53,7 +53,7 @@ public class FetchFoldersService extends Service<Void> {
             protected Task createTask() {
                 return new Task() {
                     @Override
-                    protected Object call() throws Exception {
+                    protected Object call(){
                         try {
                             if (folder.getType() != Folder.HOLDS_FOLDERS) {
                                 folder.open(Folder.READ_WRITE);
