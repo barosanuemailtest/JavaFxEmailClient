@@ -44,5 +44,14 @@ public class EmailManager {
         fetchFoldersService.start();
     }
 
+    // Selection model handling:
+    private EmailTreeItem<String> selectedFolder;
 
+    public EmailTreeItem<String> getSelectedFolder() {
+        return selectedFolder;
+    }
+
+    public void setSelectedFolder(EmailTreeItem<String> selectedFolder) {
+        this.selectedFolder = selectedFolder;
+    }
 }

@@ -13,6 +13,15 @@ public class EmailMessage {
     private SimpleStringProperty recipient;
     private SimpleObjectProperty<FormatableInteger> size;
     private SimpleObjectProperty<Date> date;
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
     private boolean isRead;
     private Message message;
 
