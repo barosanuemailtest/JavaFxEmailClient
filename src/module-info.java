@@ -5,6 +5,10 @@ module JavaFxEmailClient {
     requires java.mail;
     requires activation;
 
+    //test:
+    requires org.junit.jupiter.api;
+    requires mockito.all;
+
     exports com.barosanu.controller;
     opens com.barosanu.controller;
     opens com.barosanu.model;
