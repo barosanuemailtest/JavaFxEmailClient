@@ -1,6 +1,6 @@
 package com.barosanu;
 
-import com.barosanu.controller.services.FetchFoldersService;
+import com.barosanu.controller.services.ServiceManager;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.model.EmailTreeItem;
 import com.barosanu.view.ColorTheme;
@@ -8,6 +8,15 @@ import com.barosanu.view.FontSize;
 
 
 public class EmailManager {
+
+    private ServiceManager serviceManager;
+
+    public EmailManager(){
+        this(new ServiceManager());
+    }
+    public EmailManager(ServiceManager serviceManager){
+        this.serviceManager = serviceManager;
+    }
 
     //Themes handling:
     public ColorTheme getTheme() {
@@ -40,8 +49,7 @@ public class EmailManager {
         EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(emailAccount.getAddress());
         emailTreeItem.setExpanded(true);
         foldersRoot.getChildren().add(emailTreeItem);
-        FetchFoldersService fetchFoldersService = new FetchFoldersService(emailAccount.getStore(), emailTreeItem);
-        fetchFoldersService.start();
+        serviceManager.submitFetchFoldersJob(emailAccount.getStore(), emailTreeItem);
     }
 
     // Selection model handling:
