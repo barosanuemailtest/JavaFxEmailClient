@@ -21,19 +21,11 @@ public class EmailAccount {
     public EmailAccount(String address, String password) {
         this.address = address;
         this.password = password;
-        EmailUtils.addPropertiesToAccout(this);
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+        EmailUtils.addPropertiesToAccount(this);
     }
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setProperties(Properties properties) {

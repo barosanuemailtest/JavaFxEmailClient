@@ -5,7 +5,7 @@ import java.util.Properties;
 public class EmailUtils {
 
 
-    public static void addPropertiesToAccout(EmailAccount emailAccount) {
+    public static void addPropertiesToAccount(EmailAccount emailAccount) {
         if (emailAccount.getAddress().contains("gmail")) {
             Properties properties = new Properties();
             properties.put("mail.store.protocol", "imaps");
