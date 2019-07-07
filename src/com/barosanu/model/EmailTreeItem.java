@@ -28,8 +28,8 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     public void addEmail(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage = new EmailMessage(
-                message.getSubject(),
                 message.getFrom()[0].toString(),
+                message.getSubject(),
                 message.getRecipients(MimeMessage.RecipientType.TO)[0].toString(),
                 message.getSize(),
                 message.getSentDate(),
@@ -49,7 +49,7 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         updateName();
     }
 
-    public void decrementUreadMessagesCount(){
+    public void decrementUnreadMessagesCount(){
         unreadMessagesCount --;
         updateName();
     }

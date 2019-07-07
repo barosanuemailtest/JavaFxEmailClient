@@ -70,7 +70,7 @@ public class MainWindowController extends BaseController implements Initializabl
             if (message != null) {
                 if (!message.isRead()) {
                     message.setRead(true);
-                    emailManager.getSelectedFolder().decrementUreadMessagesCount();
+                    emailManager.getSelectedFolder().decrementUnreadMessagesCount();
                 }
             }
         });
