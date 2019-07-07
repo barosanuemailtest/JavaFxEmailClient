@@ -42,8 +42,4 @@ public class FormatableInteger implements Comparable<FormatableInteger> {
         return size == that.size;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(size);
-    }
 }
