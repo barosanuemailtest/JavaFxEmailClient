@@ -3,7 +3,6 @@ package test;
 import com.barosanu.EmailManager;
 import com.barosanu.controller.services.ServiceManager;
 import com.barosanu.model.EmailAccount;
-import com.barosanu.model.EmailTreeItem;
 import com.barosanu.view.ColorTheme;
 import com.barosanu.view.FontSize;
 import org.junit.jupiter.api.BeforeEach;

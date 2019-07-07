@@ -5,68 +5,50 @@ import com.barosanu.controller.BaseController;
 import com.barosanu.controller.LoginWindowController;
 import com.barosanu.controller.MainWindowController;
 import com.barosanu.controller.OptionsWindowController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ViewFactory {
 
     private EmailManager emailManager;
+    private ViewInitializer viewInitializer;
     private ArrayList<Stage> activeStages;
     private boolean mainViewInitialized = false;
 
     public ViewFactory(EmailManager emailManager) {
+        this(emailManager, new ViewInitializer(emailManager));
+    }
+
+    public ViewFactory(EmailManager emailManager, ViewInitializer viewInitializer) {
         this.emailManager = emailManager;
+        this.viewInitializer = viewInitializer;
         activeStages = new ArrayList<Stage>();
     }
 
 
     public void showLoginWindow() {
-        Stage loginStage = new Stage();
-        BaseController loginWindow = new LoginWindowController(this, emailManager, "LoginWindow.fxml");
-        loginStage.setScene(this.initializeScene(loginWindow));
-        loginStage.show();
-        activeStages.add(loginStage);
+        BaseController loginWindowController = new LoginWindowController(this, emailManager, "LoginWindow.fxml");
+        Stage stage = viewInitializer.initializeStage(loginWindowController);
+        activeStages.add(stage);
     }
 
-    public void showMainWindow(){
-        Stage mainStage = new Stage();
-        BaseController mainWindow = new MainWindowController(this, emailManager, "MainWindow.fxml");
-        mainStage.setScene(this.initializeScene(mainWindow));
-        mainStage.show();
+    public void showMainWindow() {
+        BaseController mainWindowController = new MainWindowController(this, emailManager, "MainWindow.fxml");
+        Stage stage = viewInitializer.initializeStage(mainWindowController);
+        activeStages.add(stage);
         mainViewInitialized = true;
-        activeStages.add(mainStage);
-    }
-    public void showOptionsWindow(){
-        Stage optionsStage = new Stage();
-        BaseController optionsController = new OptionsWindowController(this, emailManager, "OptionsWindow.fxml");
-        optionsStage.setScene(this.initializeScene(optionsController));
-        optionsStage.show();
-        activeStages.add(optionsStage);
     }
 
-    public boolean isMainViewInitialized(){
+    public void showOptionsWindow() {
+        BaseController optionsWindowController = new OptionsWindowController(this, emailManager, "OptionsWindow.fxml");
+        Stage stage = viewInitializer.initializeStage(optionsWindowController);
+        activeStages.add(stage);
+    }
+
+    public boolean isMainViewInitialized() {
         return this.mainViewInitialized;
-    }
-
-    private Scene initializeScene(BaseController baseController) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(baseController.getFxmlName()));
-        fxmlLoader.setController(baseController);
-        Parent parent;
-        try {
-            parent = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        Scene scene = new Scene(parent);
-        applyCurrentStylesToScene(scene);
-        return scene;
     }
 
     public void closeStage(Stage stageToClose) {
@@ -74,16 +56,14 @@ public class ViewFactory {
         stageToClose.close();
     }
 
-    public void updateStyles(){
-        for(Stage stage2:activeStages) {
-            Scene scene2 = stage2.getScene();
-            applyCurrentStylesToScene(scene2);
+    public void updateStyles() {
+        for (Stage stage : activeStages) {
+            Scene scene = stage.getScene();
+            viewInitializer.applyCurrentStylesToScene(scene);
         }
     }
 
-    private void applyCurrentStylesToScene(Scene scene){
-        scene.getStylesheets().clear();
-        scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(emailManager.getTheme())).toExternalForm());
-        scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(emailManager.getFontSize())).toExternalForm());
-    }
+
 }
+
+

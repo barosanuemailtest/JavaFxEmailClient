@@ -3,6 +3,8 @@ package com.barosanu.controller;
 import com.barosanu.EmailManager;
 import com.barosanu.view.ViewFactory;
 
+import java.util.Objects;
+
 public abstract class BaseController {
 
     protected ViewFactory viewFactory;
@@ -18,5 +20,18 @@ public abstract class BaseController {
 
     public String getFxmlName(){
         return  this.fxmlName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseController that = (BaseController) o;
+        return Objects.equals(fxmlName, that.fxmlName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fxmlName);
     }
 }
