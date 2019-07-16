@@ -20,6 +20,14 @@ public class LoginWindowController extends BaseController implements Initializab
         super(viewFactory, emailManager, fxmlName);
     }
 
+    public LoginWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName,
+                                 TextField emailAddressField, PasswordField passwordField, Label errorLabel ) {
+        super(viewFactory, emailManager, fxmlName);
+        this.emailAddressField = emailAddressField;
+        this.passwordField = passwordField;
+        this.errorLabel = errorLabel;
+    }
+
     @FXML
     private TextField emailAddressField;
 
@@ -30,7 +38,7 @@ public class LoginWindowController extends BaseController implements Initializab
     private Label errorLabel;
 
     @FXML
-    void loginAction() {
+    public void loginAction() {
         if(fieldsAreValid()){
             errorLabel.setText("Logging in ...");
             EmailAccount emailAccount = new EmailAccount(
