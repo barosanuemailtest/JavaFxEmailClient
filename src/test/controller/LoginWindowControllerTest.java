@@ -58,7 +58,11 @@ public class LoginWindowControllerTest {
         emailAddressField.setText("some@address.com");
         loginWindowController.loginAction();
         assertEquals(errorLabel.getText(),"Please fill password");
-
+    }
+    @Test
+    public void testLoginAction(){
+        emailAddressField.setText("some@address.com");
+        passwordField.setText("password");
     }
 
 }
