@@ -18,15 +18,19 @@ public class LoginWindowController extends BaseController implements Initializab
 
     public LoginWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
         super(viewFactory, emailManager, fxmlName);
+        this.loginService = new LoginService(emailManager, null);
     }
 
     public LoginWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName,
-                                 TextField emailAddressField, PasswordField passwordField, Label errorLabel ) {
+                                 TextField emailAddressField, PasswordField passwordField, Label errorLabel, LoginService loginService ) {
         super(viewFactory, emailManager, fxmlName);
         this.emailAddressField = emailAddressField;
         this.passwordField = passwordField;
         this.errorLabel = errorLabel;
+        this.loginService = loginService;
     }
+
+    private LoginService loginService;
 
     @FXML
     private TextField emailAddressField;
@@ -45,7 +49,8 @@ public class LoginWindowController extends BaseController implements Initializab
                     emailAddressField.getText(),
                     passwordField.getText()
             );
-            LoginService loginService = new LoginService(emailManager, emailAccount);
+            //LoginService loginService = new LoginService(emailManager, emailAccount);
+            loginService.setEmailAccount(emailAccount);
             loginService.start();
             loginService.setOnSucceeded(e->{
                 EmailLoginResult result = loginService.getValue();

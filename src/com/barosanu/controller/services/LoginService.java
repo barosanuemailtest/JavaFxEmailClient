@@ -18,6 +18,10 @@ public class LoginService extends Service<EmailLoginResult> {
         this.emailManager = emailManager;
     }
 
+    public void setEmailAccount(EmailAccount emailAccount){
+        this.emailAccount = emailAccount;
+    }
+
     @Override
     protected Task<EmailLoginResult> createTask() {
         return new Task<EmailLoginResult>() {

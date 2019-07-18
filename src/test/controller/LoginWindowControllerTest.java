@@ -2,19 +2,19 @@ package test.controller;
 
 import com.barosanu.EmailManager;
 import com.barosanu.controller.LoginWindowController;
+import com.barosanu.controller.services.LoginService;
 import com.barosanu.view.ViewFactory;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,9 +33,17 @@ public class LoginWindowControllerTest {
 
     private LoginWindowController loginWindowController;
 
+    @Mock
+    private LoginService loginServiceMock;
+
+    @BeforeAll
+    public static void setUpToolkit(){
+        Platform.startup(() -> System.out.println("Toolkit initialized ..."));
+
+    }
+
     @BeforeEach
     public void setUp(){
-        Platform.startup(() -> System.out.println("Toolkit initialized ..."));
         initMocks(this);
         emailAddressField = new TextField();
         passwordField = new PasswordField();
@@ -47,7 +55,8 @@ public class LoginWindowControllerTest {
                 null,
                 emailAddressField,
                 passwordField,
-                errorLabel
+                errorLabel,
+                loginServiceMock
         );
     }
 
@@ -63,6 +72,9 @@ public class LoginWindowControllerTest {
     public void testLoginAction(){
         emailAddressField.setText("some@address.com");
         passwordField.setText("password");
+        loginWindowController.loginAction();
+        verify(loginServiceMock).setEmailAccount(any());
+        verify(loginServiceMock).start();
     }
 
 }
