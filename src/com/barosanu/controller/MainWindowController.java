@@ -8,10 +8,7 @@ import com.barosanu.model.FormatableInteger;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
@@ -21,6 +18,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends BaseController implements Initializable {
+
+    private MenuItem markUnread = new MenuItem("mark as unread");
+    private MenuItem deleteMessage = new MenuItem("delete message");
 
     @FXML
     private TreeView<String> folders;
@@ -46,7 +46,7 @@ public class MainWindowController extends BaseController implements Initializabl
     @FXML
     private WebView messageView;
 
-    private MessageRendererService mesageMessageRendererService;
+    private MessageRendererService messageRendererService;
 
     public MainWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
         super(viewFactory, emailManager, fxmlName);
@@ -70,23 +70,23 @@ public class MainWindowController extends BaseController implements Initializabl
         setUpBoldRows();
         setUpMessageSelection();
         setUpMessageRenderer();
+        setUpContextMenus();
     }
 
     private void setUpMessageRenderer() {
-        messageView.getEngine().load("http://google.com");
-        mesageMessageRendererService = new MessageRendererService(messageView.getEngine());
+        messageRendererService = new MessageRendererService(messageView.getEngine());
     }
 
     private void setUpMessageSelection() {
         emailTableView.setOnMouseClicked(e -> {
             EmailMessage message = emailTableView.getSelectionModel().getSelectedItem();
             if (message != null) {
+                emailManager.setSelectedMessage(message);
                 if (!message.isRead()) {
-                    message.setRead(true);
-                    emailManager.getSelectedFolder().decrementUnreadMessagesCount();
+                    emailManager.setRead();
                 }
-                mesageMessageRendererService.setEmailMessage(message);
-                mesageMessageRendererService.restart();
+                messageRendererService.setEmailMessage(message);
+                messageRendererService.restart();
             }
         });
     }
@@ -102,6 +102,8 @@ public class MainWindowController extends BaseController implements Initializabl
         recipientCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, FormatableInteger>("size"));
         dateCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
+
+        emailTableView.setContextMenu(new ContextMenu(markUnread, deleteMessage));
     }
 
     private void setUpFolderSelection() {
@@ -111,6 +113,16 @@ public class MainWindowController extends BaseController implements Initializabl
                 emailTableView.setItems(item.getEmails());
                 emailManager.setSelectedFolder(item);
             }
+        });
+    }
+
+    private void setUpContextMenus() {
+        markUnread.setOnAction(e -> {
+            emailManager.setUnRead();
+        });
+        deleteMessage.setOnAction(e -> {
+            emailManager.deleteSelectedMessage();
+            messageView.getEngine().loadContent("");
         });
     }
 

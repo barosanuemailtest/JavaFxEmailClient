@@ -26,6 +26,16 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     }
 
     public void addEmail(Message message) throws MessagingException {
+        EmailMessage emailMessage = fetchEmail(message);
+        emails.add(emailMessage);
+    }
+
+    public void addEmailToTop(Message message) throws MessagingException {
+        EmailMessage emailMessage = fetchEmail(message);
+        emails.add(0, emailMessage);
+    }
+
+    private EmailMessage fetchEmail(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage = new EmailMessage(
                 message.getFrom()[0].toString(),
@@ -36,14 +46,13 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 messageIsRead,
                 message
         );
-
-        emails.add(emailMessage);
         if(!messageIsRead){
             incrementUnreadMessagesCount();
         }
+        return emailMessage;
     }
 
-    private void incrementUnreadMessagesCount(){
+    public void incrementUnreadMessagesCount(){
         unreadMessagesCount++;
         updateName();
     }

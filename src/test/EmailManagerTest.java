@@ -57,6 +57,6 @@ public class EmailManagerTest {
         when(emailAccountMock.getStore()).thenReturn(storeMock);
         emailManager.addEmailAccount(emailAccountMock);
         assertTrue(emailManager.getFoldersRoot().getChildren().get(0).getValue() == "some@address.com");
-        verify(serviceManagerMock).submitFetchFoldersJob(eq(storeMock), any());
+        verify(serviceManagerMock).submitFetchFoldersJob(eq(storeMock), any(), any());
     }
 }
