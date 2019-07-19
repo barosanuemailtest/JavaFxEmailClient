@@ -73,6 +73,7 @@ public class MainWindowController extends BaseController implements Initializabl
     }
 
     private void setUpMessageRenderer() {
+        messageView.getEngine().load("http://google.com");
         mesageMessageRendererService = new MessageRendererService(messageView.getEngine());
     }
 
