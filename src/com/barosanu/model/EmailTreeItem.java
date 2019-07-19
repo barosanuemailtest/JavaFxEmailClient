@@ -38,7 +38,6 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         );
 
         emails.add(emailMessage);
-        System.out.println("Added message: " + emailMessage.toString());
         if(!messageIsRead){
             incrementUnreadMessagesCount();
         }

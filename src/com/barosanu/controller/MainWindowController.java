@@ -1,6 +1,7 @@
 package com.barosanu.controller;
 
 import com.barosanu.EmailManager;
+import com.barosanu.controller.services.MessageRendererService;
 import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
 import com.barosanu.model.FormatableInteger;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.web.WebView;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -41,6 +43,11 @@ public class MainWindowController extends BaseController implements Initializabl
     @FXML
     private TableColumn<EmailMessage, Date> dateCol;
 
+    @FXML
+    private WebView messageView;
+
+    private MessageRendererService mesageMessageRendererService;
+
     public MainWindowController(ViewFactory viewFactory, EmailManager emailManager, String fxmlName) {
         super(viewFactory, emailManager, fxmlName);
     }
@@ -62,6 +69,11 @@ public class MainWindowController extends BaseController implements Initializabl
         setUpEmailsList();
         setUpBoldRows();
         setUpMessageSelection();
+        setUpMessageRenderer();
+    }
+
+    private void setUpMessageRenderer() {
+        mesageMessageRendererService = new MessageRendererService(messageView.getEngine());
     }
 
     private void setUpMessageSelection() {
@@ -72,6 +84,8 @@ public class MainWindowController extends BaseController implements Initializabl
                     message.setRead(true);
                     emailManager.getSelectedFolder().decrementUnreadMessagesCount();
                 }
+                mesageMessageRendererService.setEmailMessage(message);
+                mesageMessageRendererService.restart();
             }
         });
     }

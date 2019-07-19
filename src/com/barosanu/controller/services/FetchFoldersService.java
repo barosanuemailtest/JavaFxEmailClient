@@ -40,7 +40,6 @@ public class FetchFoldersService extends Service<Void> {
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(folder.getName());
             parentTree.getChildren().add(emailTreeItem);
             emailTreeItem.setExpanded(true);
-            System.out.println("Added " + folder.getName());
             fetchMessagesOnFolder(emailTreeItem, folder);
             Folder[] subFolders = folder.list();
             handleFolder(subFolders, emailTreeItem);
