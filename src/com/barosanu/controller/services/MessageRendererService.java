@@ -16,6 +16,7 @@ public class MessageRendererService extends Service<Void> {
 
     public  MessageRendererService(WebEngine webEngine){
         this.webEngine = webEngine;
+        this.stringBuffer = new StringBuffer();
         this.setOnSucceeded( e -> displayMessage());
     }
 
