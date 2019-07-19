@@ -96,7 +96,14 @@ public class FetchFoldersService extends Service<Void> {
 
             @Override
             public void messagesRemoved(MessageCountEvent messageCountEvent) {
-                System.out.println(messageCountEvent.getMessages()[0]);
+                for (int i = 0; i < messageCountEvent.getMessages().length; i++) {
+                    try {
+                        Message currentMessage = folder.getMessage(folder.getMessageCount() - i);
+                        emailFolder.removeMessage(currentMessage);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

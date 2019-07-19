@@ -1,5 +1,6 @@
 package com.barosanu;
 
+import com.barosanu.controller.services.FolderUpdaterService;
 import com.barosanu.controller.services.ServiceManager;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.model.EmailMessage;
@@ -17,9 +18,12 @@ import java.util.List;
 public class EmailManager {
 
     private ServiceManager serviceManager;
+    private FolderUpdaterService folderUpdaterService;
 
     public EmailManager(){
         this(new ServiceManager());
+        folderUpdaterService = new FolderUpdaterService(folderList);
+        folderUpdaterService.start();
     }
     public EmailManager(ServiceManager serviceManager){
         this.serviceManager = serviceManager;
@@ -50,6 +54,10 @@ public class EmailManager {
 
     public EmailTreeItem<String> getFoldersRoot() {
         return foldersRoot;
+    }
+
+    public List<Folder> getFolderList() {
+        return folderList;
     }
 
     private List<Folder> folderList = new ArrayList<Folder>();

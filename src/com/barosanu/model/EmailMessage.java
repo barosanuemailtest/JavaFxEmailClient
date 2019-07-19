@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 import javax.mail.Message;
 import java.util.Date;
+import java.util.Objects;
 
 public class EmailMessage {
 
@@ -55,14 +56,21 @@ public class EmailMessage {
     }
 
     @Override
-    public String toString() {
-        return "EmailMessage{" +
-                "sender=" + sender +
-                ", subject=" + subject +
-                ", recipient=" + recipient +
-                ", size=" + size +
-                ", date=" + date +
-             //   ", message=" + message +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmailMessage that = (EmailMessage) o;
+        return isRead == that.isRead &&
+                Objects.equals(sender, that.sender) &&
+                Objects.equals(subject, that.subject) &&
+                Objects.equals(recipient, that.recipient) &&
+                Objects.equals(size, that.size) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, subject, recipient, size, date, isRead, message);
     }
 }
