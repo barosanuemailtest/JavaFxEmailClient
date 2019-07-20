@@ -29,6 +29,11 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Compose">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#composeMessageAction" text="Compose" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <TreeView fx:id="folders" layoutX="14.0" layoutY="29.0" prefHeight="484.0" prefWidth="174.0" AnchorPane.bottomAnchor="12.0" AnchorPane.topAnchor="29.0" />

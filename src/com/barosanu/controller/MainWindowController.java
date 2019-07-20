@@ -62,6 +62,11 @@ public class MainWindowController extends BaseController implements Initializabl
         this.viewFactory.showLoginWindow();
     }
 
+    @FXML
+    void composeMessageAction() {
+        this.viewFactory.showComposeWindow();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setUpFoldersView();
