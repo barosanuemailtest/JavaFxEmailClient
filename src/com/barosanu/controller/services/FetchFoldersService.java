@@ -48,8 +48,11 @@ public class FetchFoldersService extends Service<Void> {
             emailTreeItem.setExpanded(true);
             fetchMessagesOnFolder(emailTreeItem, folder);
             addMessageListenerToFolder(emailTreeItem, folder);
-            Folder[] subFolders = folder.list();
-            handleFolder(subFolders, emailTreeItem);
+            System.out.println(folder.getName() + " type: " + folder.getType());
+            if (folder.getType()== Folder.HOLDS_FOLDERS){
+                Folder[] subFolders = folder.list();
+                handleFolder(subFolders, emailTreeItem);
+            }
         }
     }
 
