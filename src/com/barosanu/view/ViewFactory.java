@@ -44,6 +44,12 @@ public class ViewFactory {
         activeStages.add(stage);
     }
 
+    public void showComposeMessageWindow() {
+        BaseController controller = new ComposeWindowController(this, emailManager, "ComposeMessageWindow.fxml");
+        Stage stage = viewInitializer.initializeStage(controller);
+        activeStages.add(stage);
+    }
+
     public boolean isMainViewInitialized() {
         return this.mainViewInitialized;
     }
