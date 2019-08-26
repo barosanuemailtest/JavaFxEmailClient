@@ -7,6 +7,8 @@ import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
 import com.barosanu.view.ColorTheme;
 import com.barosanu.view.FontSize;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -19,6 +21,11 @@ public class EmailManager {
 
     private ServiceManager serviceManager;
     private FolderUpdaterService folderUpdaterService;
+    private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
+
+    public ObservableList<EmailAccount> getEmailAccounts(){
+        return emailAccounts;
+    }
 
     public EmailManager(){
         this(new ServiceManager());
@@ -63,6 +70,7 @@ public class EmailManager {
     private List<Folder> folderList = new ArrayList<Folder>();
 
     public void addEmailAccount(EmailAccount emailAccount){
+        emailAccounts.add(emailAccount);
         EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(emailAccount.getAddress());
         emailTreeItem.setExpanded(true);
         foldersRoot.getChildren().add(emailTreeItem);
