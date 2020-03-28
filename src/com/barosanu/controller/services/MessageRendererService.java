@@ -50,27 +50,35 @@ public class MessageRendererService extends Service<Void> {
     }
 
     private void loadMessage() throws MessagingException, IOException {
-        stringBuffer.setLength(0);
+        stringBuffer.setLength(0); //clears the SB
         Message message = emailMessage.getMessage();
         String contentType = message.getContentType();
-        if (isSimpleType(contentType)){
+        if(isSimpleType(contentType)){
             stringBuffer.append(message.getContent().toString());
-        } else if(isMultipartType(contentType)) {
-            Multipart multipart = (Multipart)message.getContent();
-            for (int i = multipart.getCount() - 1; i >= 0 ; i--) {
-                BodyPart bodyPart = multipart.getBodyPart(i);
-                String bodyPartContentType = bodyPart.getContentType();
-                if(isSimpleType(bodyPartContentType)){
-                    stringBuffer.append(bodyPart.getContent().toString());
-                }
+        } else if(isMultipartType(contentType)){
+            Multipart multipart = (Multipart) message.getContent();
+            loadMultipart(multipart, stringBuffer);
+        }
+    }
+
+    private void loadMultipart(Multipart multipart, StringBuffer stringBuffer) throws MessagingException, IOException {
+        for (int i = multipart.getCount() - 1; i>=0; i--){
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            String contentType = bodyPart.getContentType();
+            if (isSimpleType(contentType)){
+                stringBuffer.append(bodyPart.getContent().toString());
+            } else if(isMultipartType(contentType)){
+                Multipart multipart2 = (Multipart) bodyPart.getContent();
+                loadMultipart(multipart2, stringBuffer);
+            } else {
+                System.out.println("Unhandled type: " + contentType);
             }
         }
-        System.out.println("message length: " + stringBuffer.length());
     }
 
     private boolean isSimpleType(String contentType) {
         if (contentType.contains("TEXT/HTML") ||
-        //        contentType.contains("TEXT/PLAIN") ||
+                contentType.contains("TEXT/PLAIN") ||
                 contentType.contains("mixed")||
                 contentType.contains("text")) {
             return true;
