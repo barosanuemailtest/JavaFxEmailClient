@@ -5,6 +5,7 @@ module JavaFxEmailClient {
     requires javafx.web;
     requires java.mail;
     requires activation;
+    requires java.desktop;
 
     //test:
     requires org.junit.jupiter.api;

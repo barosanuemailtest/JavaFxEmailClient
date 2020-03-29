@@ -21,6 +21,7 @@ public class MainWindowController extends BaseController implements Initializabl
 
     private MenuItem markUnread = new MenuItem("mark as unread");
     private MenuItem deleteMessage = new MenuItem("delete message");
+    private MenuItem viewDetails = new MenuItem("view details");
 
     @FXML
     private TreeView<String> folders;
@@ -108,7 +109,7 @@ public class MainWindowController extends BaseController implements Initializabl
         sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, FormatableInteger>("size"));
         dateCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
 
-        emailTableView.setContextMenu(new ContextMenu(markUnread, deleteMessage));
+        emailTableView.setContextMenu(new ContextMenu(markUnread, deleteMessage, viewDetails));
     }
 
     private void setUpFolderSelection() {
@@ -128,6 +129,9 @@ public class MainWindowController extends BaseController implements Initializabl
         deleteMessage.setOnAction(e -> {
             emailManager.deleteSelectedMessage();
             messageView.getEngine().loadContent("");
+        });
+        viewDetails.setOnAction(e->{
+            viewFactory.showEmailDetailsWindow();
         });
     }
 

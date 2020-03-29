@@ -44,8 +44,8 @@ public class ViewFactory {
         activeStages.add(stage);
     }
 
-    public void showComposeMessageWindow() {
-        BaseController controller = new ComposeWindowController(this, emailManager, "ComposeMessageWindow.fxml");
+    public void showEmailDetailsWindow(){
+        BaseController controller = new EmailDetailsController(this, emailManager, "EmailDetailsWindow.fxml");
         Stage stage = viewInitializer.initializeStage(controller);
         activeStages.add(stage);
     }

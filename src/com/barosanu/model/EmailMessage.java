@@ -4,7 +4,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.mail.Message;
+import javax.mail.internet.MimeBodyPart;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class EmailMessage {
@@ -14,6 +17,7 @@ public class EmailMessage {
     private SimpleStringProperty recipient;
     private SimpleObjectProperty<FormatableInteger> size;
     private SimpleObjectProperty<Date> date;
+    private List<MimeBodyPart> attachmentList = new ArrayList<MimeBodyPart>();
 
     public void setRead(boolean read) {
         isRead = read;
@@ -24,6 +28,7 @@ public class EmailMessage {
     }
 
     private boolean isRead;
+    private boolean hasAttachments = false;
     private Message message;
 
     public EmailMessage(String sender, String subject, String recipient, int size, Date date, boolean isRead, Message message) {
@@ -36,23 +41,44 @@ public class EmailMessage {
         this.message = message;
     }
 
-    public String getSender(){
+    public boolean hasAttachments(){
+        return hasAttachments;
+    }
+
+    public String getSender() {
         return sender.get();
     }
-    public String getSubject(){
+
+    public String getSubject() {
         return subject.get();
     }
-    public String getRecipient(){
+
+    public String getRecipient() {
         return recipient.get();
     }
-    public FormatableInteger getSize(){
+
+    public FormatableInteger getSize() {
         return size.get();
     }
-    public Date getDate(){
+
+    public Date getDate() {
         return date.get();
     }
+
     public Message getMessage() {
         return message;
+    }
+
+    public void addAttachment(MimeBodyPart mimeBodyPart) {
+        hasAttachments = true;
+        attachmentList.add(mimeBodyPart);
+    }
+    public void clearAttachments(){
+        this.attachmentList.clear();
+    }
+
+    public List<MimeBodyPart> getAttachmentList() {
+        return attachmentList;
     }
 
     @Override

@@ -9,6 +9,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import java.io.IOException;
 
 public class MessageRendererService extends Service<Void> {
@@ -49,8 +50,9 @@ public class MessageRendererService extends Service<Void> {
         };
     }
 
-    private void loadMessage() throws MessagingException, IOException {
+    private synchronized void loadMessage() throws MessagingException, IOException {
         stringBuffer.setLength(0); //clears the SB
+        emailMessage.clearAttachments();
         Message message = emailMessage.getMessage();
         String contentType = message.getContentType();
         if(isSimpleType(contentType)){
@@ -70,15 +72,20 @@ public class MessageRendererService extends Service<Void> {
             } else if(isMultipartType(contentType)){
                 Multipart multipart2 = (Multipart) bodyPart.getContent();
                 loadMultipart(multipart2, stringBuffer);
-            } else {
-                System.out.println("Unhandled type: " + contentType);
+            } else if(!isTextPlain(contentType)){
+                // here we get attachments
+                MimeBodyPart mbp = (MimeBodyPart)bodyPart;
+                emailMessage.addAttachment(mbp);
             }
         }
     }
 
+    private boolean isTextPlain(String contentType){
+        return contentType.contains("TEXT/PLAIN");
+    }
+
     private boolean isSimpleType(String contentType) {
         if (contentType.contains("TEXT/HTML") ||
-                contentType.contains("TEXT/PLAIN") ||
                 contentType.contains("mixed")||
                 contentType.contains("text")) {
             return true;
