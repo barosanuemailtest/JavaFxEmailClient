@@ -38,7 +38,6 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     public void removeMessage(Message message) throws MessagingException {
         for (EmailMessage emailMessage : emails) {
             if(emailMessage.getMessage().equals(message)) {
-                System.out.println("removed message: " + emailMessage.getSubject());
                 emails.remove(emailMessage);
             }
         }

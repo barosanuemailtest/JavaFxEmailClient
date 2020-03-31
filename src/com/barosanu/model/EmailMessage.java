@@ -30,6 +30,7 @@ public class EmailMessage {
     private boolean isRead;
     private boolean hasAttachments = false;
     private Message message;
+    private int hashcode;
 
     public EmailMessage(String sender, String subject, String recipient, int size, Date date, boolean isRead, Message message) {
         this.sender = new SimpleStringProperty(sender);
@@ -39,6 +40,7 @@ public class EmailMessage {
         this.date = new SimpleObjectProperty<Date>(date);
         this.isRead = isRead;
         this.message = message;
+        this.computeHashcode(sender, subject, size);
     }
 
     public boolean hasAttachments(){
@@ -91,12 +93,20 @@ public class EmailMessage {
                 Objects.equals(subject, that.subject) &&
                 Objects.equals(recipient, that.recipient) &&
                 Objects.equals(size, that.size) &&
-                Objects.equals(date, that.date) &&
-                Objects.equals(message, that.message);
+                Objects.equals(date, that.date);
+    }
+
+    private void computeHashcode(String sender, String subject, int size){
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((sender == null) ? 0 : sender.hashCode());
+        result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+        result = prime * result + size;
+        this.hashcode =  result;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(sender, subject, recipient, size, date, isRead, message);
+    public int hashCode(){
+        return hashcode;
     }
 }
