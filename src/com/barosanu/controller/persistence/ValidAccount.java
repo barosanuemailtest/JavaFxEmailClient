@@ -17,6 +17,11 @@ public class ValidAccount implements Serializable {
     public String getAddress() {
         return address;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPassword() {
         return password;
     }
